@@ -1,3 +1,10 @@
+'''
+This allows the code to compile without the rosbag play dependencies
+'''
+testing = True;
+
+
+
 # ROS Client Library for Python
 from math import pi
 from game_engine.Object2D import Object2D
@@ -22,10 +29,7 @@ from racetrack import Racetrack
 
 
 
-'''
-This allows the code to compile without the rosbag play dependencies
-'''
-testing = True;
+
 
 
 
@@ -40,11 +44,11 @@ class Gps_visualizer(Node):
     # Initiate the Node class's constructor and give it a name
     super().__init__('gps_visualizer')
  
-    self.declare_parameter("usingIMSMap",True);
-    self.declare_parameter("first_person",True);
+    #self.declare_parameter("usingIMSMap",True);
+    #self.declare_parameter("first_person",False);
 
     # create simulation
-    self.frame1 = IAC_visualization_frame(useIMS=self.get_parameter("usingIMSMap"),first_person=self.get_parameter("first_person"));
+    self.frame1 = IAC_visualization_frame(useIMS=True,first_person=True);
 
 
     # create sub to gps data
