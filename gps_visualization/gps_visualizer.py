@@ -1,21 +1,7 @@
-
-
-'''
-This allows the code to compile without the rosbag play dependencies
-'''
-testing = True;
-
-
-
-
-
-
-
-
-
 # ROS Client Library for Python
 from math import pi
 from game_engine.Object2D import Object2D
+from iac_visualization_frame import IAC_visualization_frame
 import rclpy
  
 # Handles the creation of nodes
@@ -35,7 +21,13 @@ from game_engine.Sprite import Sprite
 from racetrack import Racetrack
 
 
-first_person = False;
+
+'''
+This allows the code to compile without the rosbag play dependencies
+'''
+testing = True;
+
+
 
 class Gps_visualizer(Node):
   """
@@ -48,34 +40,36 @@ class Gps_visualizer(Node):
     # Initiate the Node class's constructor and give it a name
     super().__init__('gps_visualizer')
  
-  
+    self.declare_parameter("usingIMSMap",True);
+    self.declare_parameter("first_person",True);
+
+    # create simulation
+    self.frame1 = IAC_visualization_frame(useIMS=self.get_parameter("usingIMSMap"),first_person=self.get_parameter("first_person"));
+
+
     # create sub to gps data
     
     if (not testing):
       self.odom_subscriber = self.create_subscription(posdata, '/novatel_top/bestpos', self.gps_callback, 20)
       self.odom_subscriber  # prevent unused variable warning
-
-
-    # Init simulation
-
-    
-
-    if (testing):
-      #self.car_visual.setSpeed((0,1));
-      #self.car_visual.setAcceleration((-0.01,0));
+    else:
+      
       i = 0;
-      while(not self.objectDraw.done):
-        self.objectDraw.run();
+      while(not self.frame1.objectDraw.done or self.frame2.objectDraw.done):
+        self.frame1.run();
+
         i+= 1;
 
         if (i == 60): # move the car to the pits
-          self.car_visual.setPosition(self.racetrack.getTrackRelativePosition(39.79055555555556,-86.23861111111111));
+          self.frame1.updateCarPos(39.79055555555556,-86.23861111111111);
+
         elif (i == 120): # move the car to the center of the dirt track
-          self.car_visual.setPosition(self.racetrack.getTrackRelativePosition(39.799166666666665,-86.23222222222222));
+          self.frame1.updateCarPos(39.799166666666665,-86.23222222222222);
+
           pass;
 
-        self.car_visual.setRotation(180 + 180 * atan2(self.car_visual.yPosition - self.racetrack.yPosition,self.car_visual.xPosition - self.racetrack.xPosition)/pi)
-
+        self.frame1.updateCarHeading(180 + 180 * atan2(self.frame1.car_visual.yPosition - self.frame1.racetrack.yPosition,self.frame1.car_visual.xPosition - self.frame1.racetrack.xPosition)/pi)
+       
   
   def gps_callback(self, msg):
 
@@ -85,11 +79,9 @@ class Gps_visualizer(Node):
     #altitude = msg.hgt;
     
     # set the position of the car by using the track object to convert
-    self.car_visual.setPosition(self.racetrack.getTrackRelativePosition(lattitude,longitude));
-
-    # update the viewpane
-    self.objectDraw.run();
+    self.frame1.updateCarPos(lattitude,longitude);
     
+
   
   def heading_callback(self, msg):
     
@@ -98,7 +90,8 @@ class Gps_visualizer(Node):
 
     # TODO convert heading to degrees
 
-    self.car_visual.setRotation(heading);
+    self.frame1.updateCarHeading(heading);
+
 
 
     

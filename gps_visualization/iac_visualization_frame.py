@@ -1,5 +1,6 @@
 
 from car_visual import Car_visual
+from game_engine.ObjectDraw import ObjectDraw
 from racetrack import Racetrack
 
 class IAC_visualization_frame():
@@ -10,20 +11,22 @@ class IAC_visualization_frame():
         screenYSize = 1000;
         self.objectDraw = ObjectDraw(screenXSize, screenYSize);
         
-        self.car_visual = Car_visual(self.objectDraw);
+        
         self.objectDraw.setBackgroundColor((0,255,0));
 
 
         runningAtIMS = True;
 
         if (first_person):
-            self.racetrack = Racetrack(self.objectDraw, useIMS=runningAtIMS,scaleMultiplier=4); # True for IMS, False for LOR
+            self.car_visual = Car_visual(self.objectDraw,scaleMultiplier=2);
+            self.racetrack = Racetrack(self.objectDraw, useIMS=useIMS,scaleMultiplier=5); # True for IMS, False for LOR
 
             self.racetrack.setCamera(self.car_visual);
             self.car_visual.setCamera(self.car_visual);
 
             self.objectDraw.add(self.car_visual);
         else:
+            self.car_visual = Car_visual(self.objectDraw);
             self.racetrack = Racetrack(self.objectDraw, useIMS=runningAtIMS); # True for IMS, False for LOR
             self.objectDraw.add(self.car_visual);
 
@@ -31,8 +34,11 @@ class IAC_visualization_frame():
         # start the simulation
         self.objectDraw.start();
 
-    def update(self):
-        self.objectDraw.update();
+    def run(self):
+        self.objectDraw.run();
 
     def updateCarPos(self,lat, long):
         self.car_visual.setPosition(self.racetrack.getTrackRelativePosition(lat,long));
+
+    def updateCarHeading(self,head):
+        self.car_visual.setRotation(head);
