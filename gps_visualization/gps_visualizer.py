@@ -14,6 +14,8 @@ testing = True;
 
 
 # ROS Client Library for Python
+from math import pi
+from game_engine.Object2D import Object2D
 import rclpy
  
 # Handles the creation of nodes
@@ -24,7 +26,8 @@ from std_msgs.msg import String
 
 if (not testing):
   from novatel_oem7_msgs.msg import BESTPOS as posdata
-
+else:
+  from math import atan2
 
 from car_visual import Car_visual
 from game_engine.ObjectDraw import ObjectDraw
@@ -32,6 +35,7 @@ from game_engine.Sprite import Sprite
 from racetrack import Racetrack
 
 
+first_person = False;
 
 class Gps_visualizer(Node):
   """
@@ -48,26 +52,17 @@ class Gps_visualizer(Node):
     # create sub to gps data
     
     if (not testing):
-      self.odom_subscriber = self.create_subscription(posdata, '/novatel_top/duplicate/bestpos', self.gps_visualizer_callback, 20)
+      self.odom_subscriber = self.create_subscription(posdata, '/novatel_top/bestpos', self.gps_callback, 20)
       self.odom_subscriber  # prevent unused variable warning
 
 
     # Init simulation
 
-    screenXSize = 500;
-    screenYSize = 1000;
-    self.objectDraw = ObjectDraw(screenXSize, screenYSize);
-    self.racetrack = Racetrack(self.objectDraw, True); # True for IMS, False for LOR
-    self.car_visual = Car_visual(self.objectDraw);
-    self.objectDraw.setBackgroundColor((0,255,0));
-
-
-
-    # start the simulation
-    self.objectDraw.start();
-
+    
 
     if (testing):
+      #self.car_visual.setSpeed((0,1));
+      #self.car_visual.setAcceleration((-0.01,0));
       i = 0;
       while(not self.objectDraw.done):
         self.objectDraw.run();
@@ -79,11 +74,10 @@ class Gps_visualizer(Node):
           self.car_visual.setPosition(self.racetrack.getTrackRelativePosition(39.799166666666665,-86.23222222222222));
           pass;
 
-      
-
+        self.car_visual.setRotation(180 + 180 * atan2(self.car_visual.yPosition - self.racetrack.yPosition,self.car_visual.xPosition - self.racetrack.xPosition)/pi)
 
   
-  def gps_visualizer_callback(self, msg):
+  def gps_callback(self, msg):
 
     # get data from ros message
     lattitude = msg.lat;
@@ -96,6 +90,15 @@ class Gps_visualizer(Node):
     # update the viewpane
     self.objectDraw.run();
     
+  
+  def heading_callback(self, msg):
+    
+    # TODO get heading from msg here
+    heading = 0;
+
+    # TODO convert heading to degrees
+
+    self.car_visual.setRotation(heading);
 
 
     

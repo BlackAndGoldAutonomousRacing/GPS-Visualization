@@ -61,8 +61,10 @@ class RelativeSprite(Sprite):
     def update(self):
         if not self.hasCamera:
             super(RelativeSprite,self).update(); # update like a normal Sprite
-            self.displayXPosition = self.xPosition;
-            self.displayYPosition = self.yPosition;
+            if (self.zeroRotation != 0):
+                self.rotation += self.zeroRotation;
+                super(RelativeSprite,self).updateDisplayImage(); # update the display image with the relative values
+                self.rotation -= self.zeroRotation;
         else:
             super(Sprite,self).update(); # call the update method of Object2D, NOT Sprite
             #save current position

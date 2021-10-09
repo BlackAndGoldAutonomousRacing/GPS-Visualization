@@ -1,12 +1,14 @@
 from game_engine.Sprite import Sprite
+from game_engine.RelativeSprite import RelativeSprite
+from racetrack import Racetrack
 import pygame
 from math import sqrt
 
-diagonalMultiplier = 0.00001;
+diagonalMultiplier = 0.00005;
 
-class Car_visual(Sprite):
+class Car_visual(RelativeSprite):
 
-    def __init__(self,objectDraw):
+    def __init__(self,objectDraw,saleMultiplier=1):
         
 
         screenXSize = objectDraw.screenSizeX;
@@ -15,17 +17,13 @@ class Car_visual(Sprite):
         diagonal = sqrt(screenXSize**2 + screenYSize**2);
         scale = diagonal*diagonalMultiplier;
 
-        super(Car_visual,self).__init__("racecar",100,100,0.1,"assets/racecar.png");
+        super(Car_visual,self).__init__("racecar",0,0,scale,"assets/racecar.png",objectDraw);
+
+        self.setZeroRotation(-90);
+
+       
+        
+
 
 
         
-        # add this object to the object draw to be rendered and updated
-        objectDraw.add(self);
-        # init stuff
-
-    def recieveGpsPos(self,x,y):
-        self.setPosition(x,y);
-
-    def update(self):
-        #print(self.xPosition,self.yPosition);
-        return super().update()
