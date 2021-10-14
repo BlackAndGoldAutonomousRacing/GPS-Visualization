@@ -22,19 +22,19 @@ class Racetrack(RelativeSprite):
             picSrc = "assets/IMS.png";
 
             # lat and long at the upper left and bottom right corners of the image
-            self.trackRefLat = 39.802499999999995; # 39 48 09 N
-            self.trackRefLong = -86.24138888888889;# 86 14 29 W
-            trackRefLatEnd = 39.7875; # 39 48 09 N
-            trackRefLongEnd = -86.22694444444444;# 86 14 29 W
+            self.trackRefLat = 39.802612; # 39 48 09 N
+            self.trackRefLong = -86.241360;# 86 14 29 W
+            trackRefLatEnd = 39.787514; # 39 48 09 N
+            trackRefLongEnd = -86.226993;# 86 14 29 W
 
             # pixel dimensions of the image
-            self.picDimX = 539.0; #pixels
-            self.picDimY = 742.0; # pixels
+            self.picDimX = 1955.0; #pixels
+            self.picDimY = 2682.0; # pixels
 
             
 
         else:
-            # TODO finish LOR case
+       
             print("LOR case in racetrack.py not finished");
 
             picSrc = "assets/LOR.png";

@@ -18,15 +18,15 @@ class IAC_visualization_frame():
         runningAtIMS = True;
 
         if (first_person):
-            self.car_visual = Car_visual(self.objectDraw,scaleMultiplier=2);
-            self.racetrack = Racetrack(self.objectDraw, useIMS=useIMS,scaleMultiplier=5); # True for IMS, False for LOR
+            self.car_visual = Car_visual(self.objectDraw,scaleMultiplier=0.4);
+            self.racetrack = Racetrack(self.objectDraw, useIMS=useIMS,scaleMultiplier=7); # True for IMS, False for LOR
 
             self.racetrack.setCamera(self.car_visual);
             self.car_visual.setCamera(self.car_visual);
 
             self.objectDraw.add(self.car_visual);
         else:
-            self.car_visual = Car_visual(self.objectDraw);
+            self.car_visual = Car_visual(self.objectDraw,scaleMultiplier=0.3);
             self.racetrack = Racetrack(self.objectDraw, useIMS=runningAtIMS); # True for IMS, False for LOR
             self.objectDraw.add(self.car_visual);
 

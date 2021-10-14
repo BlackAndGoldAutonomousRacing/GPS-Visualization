@@ -9,15 +9,20 @@ testing = True;
 from math import pi
 from game_engine.Object2D import Object2D
 from iac_visualization_frame import IAC_visualization_frame
-import rclpy
+
+
  
+ import rclpy
+
 # Handles the creation of nodes
 from rclpy.node import Node
- 
+  
 # Handles string messages
-from std_msgs.msg import String
 
 if (not testing):
+  
+ 
+  from std_msgs.msg import String
   from novatel_oem7_msgs.msg import BESTPOS as posdata
 else:
   from math import atan2
@@ -26,7 +31,6 @@ from car_visual import Car_visual
 from game_engine.ObjectDraw import ObjectDraw
 from game_engine.Sprite import Sprite
 from racetrack import Racetrack
-
 
 
 
