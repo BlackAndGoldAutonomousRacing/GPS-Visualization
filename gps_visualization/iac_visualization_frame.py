@@ -15,7 +15,6 @@ class IAC_visualization_frame():
         self.objectDraw.setBackgroundColor((0,255,0));
 
 
-        runningAtIMS = True;
 
         if (first_person):
             self.car_visual = Car_visual(self.objectDraw,scaleMultiplier=0.4);
@@ -27,7 +26,7 @@ class IAC_visualization_frame():
             self.objectDraw.add(self.car_visual);
         else:
             self.car_visual = Car_visual(self.objectDraw,scaleMultiplier=0.3);
-            self.racetrack = Racetrack(self.objectDraw, useIMS=runningAtIMS); # True for IMS, False for LOR
+            self.racetrack = Racetrack(self.objectDraw, useIMS=useIMS); # True for IMS, False for LOR
             self.objectDraw.add(self.car_visual);
 
 

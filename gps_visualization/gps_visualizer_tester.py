@@ -4,6 +4,8 @@
 
 
 from math import pi
+
+from numpy.lib.histograms import _unsigned_subtract
 from game_engine.Object2D import Object2D
 from iac_visualization_frame import IAC_visualization_frame
 
@@ -35,8 +37,10 @@ class Gps_visualizer():
     #self.declare_parameter("usingIMSMap",True);
     #self.declare_parameter("first_person",False);
 
+    useIMS = False;
+
     # create simulation
-    self.frame1 = IAC_visualization_frame(useIMS=True,first_person=False);
+    self.frame1 = IAC_visualization_frame(useIMS=useIMS,first_person=False);
 
 
     # create sub to gps data
@@ -44,6 +48,9 @@ class Gps_visualizer():
     if (not testing):
       self.odom_subscriber = self.create_subscription(posdata, '/novatel_top/bestpos', self.gps_callback, 20)
       self.odom_subscriber  # prevent unused variable warning
+
+      self.heading_subscriber = self.create_subscription(headingdata, '/novatel_top/heading', self.heading_callback, 20)
+      self.heading_subscriber
     else:
       
       i = 0;
@@ -51,14 +58,19 @@ class Gps_visualizer():
         self.frame1.run();
 
         i+= 1;
+       
+        if (useIMS):
+            if (i == 10): # move the car to the pits
+                self.frame1.updateCarPos(39.79055555555556,-86.23861111111111);
 
-        if (i == 10): # move the car to the pits
-          self.frame1.updateCarPos(39.79055555555556,-86.23861111111111);
+            elif (i == 20): # move the car to the center of the dirt track
+                self.frame1.updateCarPos(39.799166666666665,-86.23222222222222);
+            elif (i==30):
+                self.frame1.updateCarPos(39.793148,-86.238868);
+        else:
+            if (i == 1): # move the car to the pits
+                self.frame1.updateCarPos(39.812523,-86.341831);
 
-        elif (i == 20): # move the car to the center of the dirt track
-          self.frame1.updateCarPos(39.799166666666665,-86.23222222222222);
-        elif (i==30):
-            self.frame1.updateCarPos(39.793148,-86.238868);
        
 
         self.frame1.updateCarHeading(180 + 180 * atan2(self.frame1.car_visual.yPosition - self.frame1.racetrack.yPosition,self.frame1.car_visual.xPosition - self.frame1.racetrack.xPosition)/pi)
@@ -79,7 +91,7 @@ class Gps_visualizer():
   def heading_callback(self, msg):
     
     # TODO get heading from msg here
-    heading = 0;
+    heading = msg.data;
 
     # TODO convert heading to degrees
 

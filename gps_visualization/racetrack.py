@@ -34,20 +34,18 @@ class Racetrack(RelativeSprite):
             
 
         else:
-       
-            print("LOR case in racetrack.py not finished");
 
             picSrc = "assets/LOR.png";
 
             # lat and long at the upper left and bottom right corners of the image
-            self.trackRefLat = 39.81444444444444; # 39 48 09 N
-            self.trackRefLong = -86.34277777777777;# 86 14 29 W
-            trackRefLatEnd = 39.81027777777778; # 39 48 09 N
-            trackRefLongEnd = -86.33805555555556;# 86 14 29 W
+            self.trackRefLat = 39.814556; # 39 48 09 N
+            self.trackRefLong = -86.342911;# 86 14 29 W
+            trackRefLatEnd = 39.810532; # 39 48 09 N
+            trackRefLongEnd = -86.339162;# 86 14 29 W
 
             # pixel dimensions of the image
-            self.picDimX = 663.0; #pixels
-            self.picDimY = 758.0; # pixels
+            self.picDimX = 1633.0; #pixels
+            self.picDimY = 2282.0; # pixels
 
         # scales the image by this factor
         self.scale = scaleMultiplier*float(screenXSize)/self.picDimX;

@@ -1,8 +1,3 @@
-'''
-This allows the code to compile without the rosbag play dependencies
-'''
-testing = True;
-
 
 
 # ROS Client Library for Python
@@ -19,13 +14,13 @@ from rclpy.node import Node
   
 # Handles string messages
 
-if (not testing):
-  
+
  
-  from std_msgs.msg import String
-  from novatel_oem7_msgs.msg import BESTPOS as posdata
-else:
-  from math import atan2
+from std_msgs.msg import String
+from novatel_oem7_msgs.msg import BESTPOS as posdata
+from novatel_oem7_msgs.msg import HEADING as headingMsgType
+
+from math import atan2
 
 from car_visual import Car_visual
 from game_engine.ObjectDraw import ObjectDraw
@@ -51,33 +46,23 @@ class Gps_visualizer(Node):
     #self.declare_parameter("usingIMSMap",True);
     #self.declare_parameter("first_person",False);
 
+
+    useIMS = False;
+
+
     # create simulation
-    self.frame1 = IAC_visualization_frame(useIMS=True,first_person=True);
+    self.frame1 = IAC_visualization_frame(useIMS=useIMS,first_person=True);
 
 
     # create sub to gps data
     
-    if (not testing):
-      self.odom_subscriber = self.create_subscription(posdata, '/novatel_top/bestpos', self.gps_callback, 20)
-      self.odom_subscriber  # prevent unused variable warning
-    else:
-      
-      i = 0;
-      while(not self.frame1.objectDraw.done or self.frame2.objectDraw.done):
-        self.frame1.run();
 
-        i+= 1;
+    self.odom_subscriber = self.create_subscription(posdata, '/novatel_top/bestpos', self.gps_callback, 20)
+    self.odom_subscriber  # prevent unused variable warning
 
-        if (i == 60): # move the car to the pits
-          self.frame1.updateCarPos(39.79055555555556,-86.23861111111111);
-
-        elif (i == 120): # move the car to the center of the dirt track
-          self.frame1.updateCarPos(39.799166666666665,-86.23222222222222);
-
-          pass;
-
-        self.frame1.updateCarHeading(180 + 180 * atan2(self.frame1.car_visual.yPosition - self.frame1.racetrack.yPosition,self.frame1.car_visual.xPosition - self.frame1.racetrack.xPosition)/pi)
-       
+    self.heading_subscriber = self.create_subscription(headingMsgType, '/novatel_top/heading', self.heading_callback, 20)
+    self.heading_subscriber
+    
   
   def gps_callback(self, msg):
 
