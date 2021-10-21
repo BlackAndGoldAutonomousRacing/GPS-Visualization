@@ -5,12 +5,12 @@ ENGR 133 Fa 2020
 Assignment Information
 	Assignment:     Final Project
 	Author:         Alec Pannunzio, afpannun@purdue.edu
-	Team ID:        LC4-5 
+	Team ID:        LC4-5
 ===============================================================================
 
 '''
-from game_engine.GameObject import GameObject
-from game_engine.GameEngineToolbox import checkType
+from .GameObject import GameObject
+from .GameEngineToolbox import checkType
 
 
 
@@ -53,7 +53,7 @@ class Object2D(GameObject):
         self.yAcceleration = 0;
         self.rotation = 0.0;
         self.angularVelocity = 0;
-        
+
 
 
     # updates the object values. is call repetively by the update loop

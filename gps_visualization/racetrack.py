@@ -1,7 +1,8 @@
-from game_engine.Sprite import Sprite
-from game_engine.RelativeSprite import RelativeSprite
+from .game_engine.Sprite import Sprite
+from .game_engine.RelativeSprite import RelativeSprite
 import pymap3d as p3d
-
+from ament_index_python.packages import get_package_share_directory
+import os
 
 '''
 Finding coords for tracks:
@@ -12,14 +13,15 @@ https://gps-coordinates.org/coordinate-converter.php
 class Racetrack(RelativeSprite):
     def __init__(self,objectDraw,useIMS=True,scaleMultiplier=1):
 
-        
+
         screenXSize = objectDraw.screenSizeX;
         screenYSize = objectDraw.screenSizeY;
 
-       
+
         picSrc = "";
         if (useIMS):
-            picSrc = "assets/IMS.png";
+            picSrc = os.path.join(get_package_share_directory('gps_visualization'),
+             "assets/IMS.png");
 
             # lat and long at the upper left and bottom right corners of the image
             self.trackRefLat = 39.802612; # 39 48 09 N
@@ -31,11 +33,12 @@ class Racetrack(RelativeSprite):
             self.picDimX = 1955.0; #pixels
             self.picDimY = 2682.0; # pixels
 
-            
+
 
         else:
 
-            picSrc = "assets/LOR.png";
+            picSrc = os.path.join(get_package_share_directory('gps_visualization'),
+             "assets/LOR.png")
 
             # lat and long at the upper left and bottom right corners of the image
             self.trackRefLat = 39.814556; # 39 48 09 N
@@ -58,8 +61,8 @@ class Racetrack(RelativeSprite):
         self.real_trackYWidth = abs(self.real_trackYWidth);
 
         #print("real trackwidth: ", self.real_trackXWidth, self.real_trackYWidth);
-        
-        
+
+
 
 
         super(Racetrack,self).__init__("racetrack",objectDraw.screenSizeX/2,objectDraw.screenSizeY/2,self.scale,picSrc,objectDraw=objectDraw);
@@ -82,7 +85,7 @@ class Racetrack(RelativeSprite):
         #print("conv x,y : ",conversion_x, conversion_y);
         x = (x_real)*conversion_x;
         y = (y_real)*conversion_y;
-        
+
         #print("x,y: ", x, y);
 
 
@@ -93,7 +96,7 @@ class Racetrack(RelativeSprite):
         #print("racetrack pos: ", track_position);
         x_rel = x - self.xSize/2.0 + track_position[0];
         y_rel = y - self.ySize/2.0 + track_position[1];
-        
+
         #print("x_rel, y_rel: ", x_rel, y_rel);
-  
+
         return x_rel,y_rel;

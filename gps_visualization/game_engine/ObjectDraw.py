@@ -6,15 +6,15 @@ ENGR 133 Fa 2020
 Assignment Information
 	Assignment:     Final Project
 	Author:         Alec Pannunzio, afpannun@purdue.edu
-	Team ID:        LC4-5 
+	Team ID:        LC4-5
 ===============================================================================
 '''
 import pygame
 import sys
 from threading import Thread
-from game_engine.Sprite import Sprite;
-from game_engine.GameEngineToolbox import checkType;
-from game_engine.GameObject import GameObject;
+from .Sprite import Sprite;
+from .GameEngineToolbox import checkType;
+from .GameObject import GameObject;
 
 # Controller for the game engine. Updates and draws the objects on a Pygame window
 '''
@@ -26,14 +26,14 @@ BLACK - tuple - represents the color black
 screen - pygame.surface - the screen we are using to put objects on
 clock - Clock - the pygame clock. We will use this to set delays
 done - boolean - whether the engine is done running yet. Setting this to false will stop the engine
-objects - list[GameObject] (manually enforced) - a list of object for the engine to 
+objects - list[GameObject] (manually enforced) - a list of object for the engine to
 tickSpeed - int - analogous to frames per second. (1/wait time inbetween frames)
 keysPressed - list[boolean] - the keys that are currently pressed down as fetched by pygame.key.get_pressed()
 backgroundColor - tuple - the background color for the screen. Painted before all other objects
 '''
 
 class ObjectDraw():
-    
+
     #initializes the objectdraw
     def __init__(self,screenSizeX, screenSizeY):
 
@@ -42,7 +42,7 @@ class ObjectDraw():
         checkType(screenSizeY,int,"screenSizeY must be an int");
         self.screenSizeX = screenSizeX;
         self.screenSizeY = screenSizeY;
-        
+
         #define colors
         self.WHITE = (255,255,255)
         self.BLACK = (0,0,0)
@@ -53,10 +53,10 @@ class ObjectDraw():
         self.screen = pygame.display.set_mode([screenSizeX, screenSizeY]) # get the screen
 
         pygame.display.set_caption("Lil' game engine -- programmed by Alec Pannunzio"); #set the title of our display
-        
+
         self.clock = pygame.time.Clock(); # get the clock
 
-        
+
         #set up variables
 
         self.objects = []; # create the objects list
@@ -78,15 +78,15 @@ class ObjectDraw():
     def setBackgroundColor(self,newColor):
         checkType(newColor,tuple,"backgroundColor must be a tuple");
         self.backgroundColor = newColor;
-    
-    # will start the game engine  
+
+    # will start the game engine
     def start(self):
         if (self.done): #make sure we aren't already running
             self.done = False;
         else:
             print("engine already running");
 
-            
+
     # will pause the game engine
     def pause(self):
         self.done = True;
@@ -115,13 +115,13 @@ class ObjectDraw():
                     return;
                 elif event.type == pygame.MOUSEBUTTONDOWN: # when the mouse is clicked
                     pass;
-            
-           
-            
+
+
+
             #update the objects
             for current_object in self.objects:
                 current_object.update();
-            
+
             # draw background
             self.screen.fill(self.backgroundColor)
 
@@ -131,7 +131,7 @@ class ObjectDraw():
 
 
             pygame.display.flip(); #push the updates to the display
-            
+
             self.clock.tick(self.tickSpeed); # delay for a bit inbetween frames
 
     # will add the gameObject to the game engine to be run

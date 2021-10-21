@@ -6,11 +6,11 @@ ENGR 133 Fa 2020
 Assignment Information
 	Assignment:     Final Project
 	Author:         Alec Pannunzio, afpannun@purdue.edu
-	Team ID:        LC4-5 
+	Team ID:        LC4-5
 ===============================================================================
 '''
-from game_engine.Object2D import Object2D
-from game_engine.GameEngineToolbox import checkType;
+from .Object2D import Object2D
+from .GameEngineToolbox import checkType;
 from math import sin, cos, pi, atan, tan
 import pygame
 
@@ -30,28 +30,28 @@ imgScale - float - how many times bigger this surface is than the original image
 class Sprite(Object2D):
     def __init__(self,name,xPosition,yPosition,scaling,imgSource):
         checkType(scaling,(int,float),"the scaling factor must be a int or float");
-        
-        
+
+
         #calculate the size of the image
         self.img = pygame.image.load(imgSource).convert(); # load the image from the imgSource
         self.xSize = scaling * self.img.get_width();
         self.ySize = scaling * self.img.get_height();
-        
+
         super(Sprite,self).__init__(name,xPosition,yPosition,self.xSize,self.ySize);
-        
+
         self.img.set_colorkey((0,0,0)); # set the colorkey of the image to black
-        
+
         self.displayImg = self.img; #initialize displayImg
 
         # initialize some class members
         self.showSizeX = self.xSize;
         self.showSizeY = self.ySize;
         self.imgScale = scaling;
-    
-    
 
 
-    # updates the sprite and readies it for rendering  
+
+
+    # updates the sprite and readies it for rendering
     def updateDisplayImage(self):
         # rotate the image to the correct rotation
         self.displayImg = pygame.transform.rotate(self.img,-self.rotation);
@@ -63,7 +63,7 @@ class Sprite(Object2D):
         '''
 
         # calculate how far away from the center the corners would be
-        cornerAngle = atan(self.ySize/self.xSize); 
+        cornerAngle = atan(self.ySize/self.xSize);
 
         cornerDist = ((self.ySize/2)**2 + (self.xSize/2)**2)**0.5; #the length from the center of the rectangle to the corner. Serves as the "hypotenuse"
 
@@ -92,15 +92,15 @@ class Sprite(Object2D):
         self.showSizeX = int(2*cornerDist*showSizeXMulti);
         self.showSizeY = int(2*cornerDist*showSizeYMulti);
 
-        
+
         self.displayImg = pygame.transform.scale(self.displayImg, (self.showSizeX,self.showSizeY));
-    
+
     #updates this Sprite
     def update(self):
         super(Sprite,self).update(); # call the update of the parent class
-        self.updateDisplayImage(); 
-        
-        
+        self.updateDisplayImage();
+
+
     #rotates the picture, but not the actual sprite object
     def rotatePicture(self,angle):
         self.img = pygame.transform.rotate(self.img,angle);

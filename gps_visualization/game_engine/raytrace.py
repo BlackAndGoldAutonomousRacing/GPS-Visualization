@@ -6,10 +6,10 @@ ENGR 133 Fa 2020
 Assignment Information
 	Assignment:     Final Project
 	Author:         Alec Pannunzio, afpannun@purdue.edu
-	Team ID:        LC4-5 
+	Team ID:        LC4-5
 ===============================================================================
 '''
-from game_engine.GameEngineToolbox import checkType
+from .GameEngineToolbox import checkType
 from math import pi,sin,cos
 
 
@@ -33,7 +33,7 @@ def raytrace(startpos,angle,length,function,functionOutput,increment = 1.3):
     checkType(increment,(float,int),"increment must be a number");
 
     angle = pi*angle/180; # convert angle to radians
-    
+
     cLength = 0; # the current probe-length for the ray
 
     # set the position of the ray to the startposition
@@ -47,10 +47,10 @@ def raytrace(startpos,angle,length,function,functionOutput,increment = 1.3):
         # calculate the pos of the endpoint of the ray
         x = startpos[0] + cLength * cos(angle);
         y = startpos[1] + cLength * sin(angle);
-        
+
     return cLength
-    
-        
+
+
 
 
 

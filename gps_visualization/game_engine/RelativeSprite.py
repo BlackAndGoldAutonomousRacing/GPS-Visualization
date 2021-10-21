@@ -6,13 +6,13 @@ ENGR 133 Fa 2020
 Assignment Information
 	Assignment:     Final Project
 	Author:         Alec Pannunzio, afpannun@purdue.edu
-	Team ID:        LC4-5 
+	Team ID:        LC4-5
 ===============================================================================
 '''
-from game_engine.Object2D import Object2D
-from game_engine.ObjectDraw import ObjectDraw
-from game_engine.GameEngineToolbox import checkType
-from game_engine.Sprite import Sprite
+from .Object2D import Object2D
+from .ObjectDraw import ObjectDraw
+from .GameEngineToolbox import checkType
+from .Sprite import Sprite
 from math import atan2, sqrt, sin, cos, pi
 
 # a more advanced sprite that can be painted in the perspective of another object. Basically a simple way of doing cameras
@@ -55,7 +55,7 @@ class RelativeSprite(Sprite):
     def removeCamera(self):
         self.camera = None;
         self.hasCamera = False;
-        
+
 
     # calls the update method of superclasses and updates the displayimage to be in the perspective of the camera
     def update(self):
@@ -74,7 +74,7 @@ class RelativeSprite(Sprite):
 
             cameraPosition = self.camera.getPosition();
 
-      
+
             #translate relative to the camera
             self.displayXPosition -= cameraPosition[0];
             self.displayYPosition -= cameraPosition[1];
@@ -86,9 +86,9 @@ class RelativeSprite(Sprite):
             '''
 
             #convert to polar
-     
+
             angle = atan2(self.displayYPosition,self.displayXPosition); # the angle of this object relative to the camera
-            
+
             radius = sqrt(self.displayXPosition**2 + self.displayYPosition**2) # thie distance this object is away from the camera
 
             # rotate the object around the camera <the camera's rotation>
@@ -109,8 +109,8 @@ class RelativeSprite(Sprite):
 
             #set displayRotation
             self.displayRotation = self.rotation;
-            
-            
+
+
             '''
             update the display image with the relative values
             '''
@@ -144,7 +144,7 @@ class RelativeSprite(Sprite):
     def setZeroRotation(self,zeroRot):
         checkType(zeroRot,(int,float),"zeroRotation must be a number");
         self.zeroRotation = zeroRot;
-        
+
 
 '''
 ===============================================================================

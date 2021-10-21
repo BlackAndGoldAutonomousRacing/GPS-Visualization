@@ -1,7 +1,7 @@
 
-from car_visual import Car_visual
-from game_engine.ObjectDraw import ObjectDraw
-from racetrack import Racetrack
+from .car_visual import Car_visual
+from .game_engine.ObjectDraw import ObjectDraw
+from .racetrack import Racetrack
 
 class IAC_visualization_frame():
 
@@ -10,8 +10,8 @@ class IAC_visualization_frame():
         screenXSize = 700;
         screenYSize = 1000;
         self.objectDraw = ObjectDraw(screenXSize, screenYSize);
-        
-        
+
+
         self.objectDraw.setBackgroundColor((0,255,0));
 
 

@@ -6,7 +6,7 @@ ENGR 133 Fa 2020
 Assignment Information
 	Assignment:     Final Project
 	Author:         Alec Pannunzio, afpannun@purdue.edu
-	Team ID:        LC4-5 
+	Team ID:        LC4-5
 ===============================================================================
 '''
 
@@ -16,11 +16,11 @@ Assignment Information
 class members
 name - string - the name of the GameObject
 '''
-from game_engine.GameEngineToolbox import checkType;
+from .GameEngineToolbox import checkType;
 
 class GameObject():
     #initialize the GameObject
-    def __init__(self,name): 
+    def __init__(self,name):
         self.name = str(name); #store the name as one of our class members
 
     # returns the gameObject's name
@@ -40,7 +40,7 @@ class GameObject():
 def testGameObject():
     bob = GameObject("bob");
     print(bob.getName());
-    
+
     badboi = GameObject(69);
     print(badboi.getName());
 
